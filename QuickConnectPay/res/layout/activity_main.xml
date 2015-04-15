@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+    <TabHost
+        android:id="@+id/tabHost"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10" >
+            </FrameLayout>
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="gone" >
+            </TabWidget>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <RadioGroup
+                    android:id="@+id/main_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#e9ebec"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/application_center_radio_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:background="#e9ebec"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableTop="@drawable/application_center_yes"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="13dp"
+                        android:text="@string/application_center"
+                        android:textColor="#ff7f2e"
+                        android:textSize="13sp" />
+
+                    <RadioButton
+                        android:id="@+id/self_center_radio_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:background="#e9ebec"
+                        android:button="@null"
+                        android:drawableTop="@drawable/self_center_no"
+                        android:gravity="center"
+                        android:paddingTop="13dp"
+                        android:text="@string/self_center"
+                        android:textColor="#b4b5b6"
+                        android:textSize="13sp" />
+
+                    <RadioButton
+                        android:id="@+id/more_radio_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:background="#e9ebec"
+                        android:button="@null"
+                        android:drawableTop="@drawable/more_no"
+                        android:gravity="center"
+                        android:drawablePadding="10dp"
+                        android:textAlignment="viewEnd"
+                        android:paddingTop="13dp"
+                        android:text="@string/more"
+                        android:textColor="#b4b5b6"
+                        android:textSize="15sp" />
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
+    </TabHost>
+
+</RelativeLayout>

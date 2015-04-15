@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_weight="2.0"
+        android:layout_height="0dp" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/banner_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </android.support.v4.view.ViewPager>
+
+        <LinearLayout
+            android:id="@+id/gallery_point_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="#ff0000"
+            android:gravity="center"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </FrameLayout>
+
+    <RadioGroup
+        android:id="@+id/main_application_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        android:background="#f0f2f3"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/PersonalFinance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="#f0f2f3"
+            android:button="@null"
+            android:checked="true"
+            android:drawablePadding="2dp"
+            android:drawableTop="@drawable/self_finance"
+            android:gravity="center"
+            android:paddingTop="13dp"
+            android:text="@string/Personal_finance"
+            android:textColor="#f3c0a6"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/life_service"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="#f0f2f3"
+            android:button="@null"
+            android:drawableTop="@drawable/life_service"
+            android:gravity="center"
+            android:paddingTop="13dp"
+            android:text="@string/life_service"
+            android:textColor="#b4b5b6"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/Business_travel_service"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="#f0f2f3"
+            android:button="@null"
+            android:drawableTop="@drawable/bussiness_service"
+            android:gravity="center"
+            android:paddingTop="13dp"
+            android:text="@string/Business_travel_service"
+            android:textColor="#b4b5b6"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/Preferential_mall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="#f0f2f3"
+            android:button="@null"
+            android:drawableTop="@drawable/preferential_mall"
+            android:gravity="center"
+            android:paddingTop="13dp"
+            android:text="@string/Preferential_mall"
+            android:textColor="#b4b5b6"
+            android:textSize="12sp" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4.0"
+        android:background="#ffffff"
+        android:gravity="top" >
+
+        <com.huichuang.widget.CustomGirdView
+            android:id="@+id/everyFeesGv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:columnWidth="30dp"
+            android:gravity="center"
+            android:horizontalSpacing="20dp"
+            android:listSelector="@null"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="30dp" >
+        </com.huichuang.widget.CustomGirdView>
+    </LinearLayout>
+
+</LinearLayout>

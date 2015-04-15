@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:background="@android:color/white"
+    android:orientation="vertical" >
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_marginTop="20sp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingRight="15sp"
+            android:text="存储块号(0-255):"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edit_qccard_block"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8sp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:singleLine="true"
+            android:text="1"
+            android:inputType="number"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" >
+        </EditText>
+    </LinearLayout>
+ <LinearLayout
+        android:id="@+id/qc_data_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_marginTop="20sp" >
+
+        <TextView
+            android:id="@+id/text_qccard_data"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingRight="15sp"
+            android:text="数据(16位):"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edit_qccard_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8sp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="0000000000000000"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" >
+        </EditText>
+    </LinearLayout>
+</LinearLayout>

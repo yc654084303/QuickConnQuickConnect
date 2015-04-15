@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">QuickConnectPay</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="application_center">应用中心</string>
+    <string name="self_center">个人中心</string>
+    <string name="more">更多</string>
+    <string name="Personal_finance">个人金融</string>
+    <string name="life_service">生活服务</string>
+    <string name="Business_travel_service">商旅服务</string>
+    <string name="Preferential_mall">特惠商城</string>
+
+</resources>

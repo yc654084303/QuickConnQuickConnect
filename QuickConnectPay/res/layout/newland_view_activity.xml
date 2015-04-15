@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:scrollbars="none"
+    android:layout_height="match_parent">
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+<include
+    android:id="@+id/top"
+    android:layout_height="wrap_content"
+    layout="@layout/top_layout" />
+
+  <RelativeLayout
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+    
+      android:layout_marginTop="20dp" >
+<TextView
+          android:id="@+id/textView1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignBaseline="@+id/gathering_money"
+          android:layout_alignBottom="@+id/gathering_money"
+          android:layout_alignParentLeft="true"
+          android:layout_marginLeft="10dp"
+          android:text="收款金额:"
+          android:textSize="20sp" />
+      <EditText
+          android:id="@+id/gathering_money"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_toRightOf="@+id/textView1"
+          
+          android:background="@android:drawable/edit_text"
+          android:hint="请输入金额" />
+ <TextView
+          android:id="@+id/textView2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+           android:textSize="20sp" 
+          android:layout_alignTop="@+id/linearLayout1"
+          android:layout_marginLeft="10dp"
+          android:text="结算账户:" />
+      <LinearLayout
+          android:id="@+id/linearLayout1"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/gathering_money"
+          android:layout_toRightOf="@+id/textView2"
+          android:orientation="vertical" >
+
+          <TextView
+              android:id="@+id/gathering_accountName"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="14sp"
+              android:text="中国建设银行" />
+
+          <TextView
+              android:id="@+id/gathering_account"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="14sp"
+              android:text="654452***2445554" />
+      </LinearLayout>
+  </RelativeLayout>
+<TextView
+     android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="您所收款项将结算至您的收款账户"
+     />
+<RelativeLayout 
+    android:id="@+id/gathering_progressbar"
+     android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+    >
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_centerVertical="true"
+    android:text="扫描账户进行中" />
+<ProgressBar
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginRight="20dp" />
+
+</RelativeLayout>
+<ImageView  android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:src="@drawable/bluetooth_accept"/>
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="如果你使用的是银行IC卡，请保持插入状态，直至交易完成" />
+</LinearLayout>
+</ScrollView>
