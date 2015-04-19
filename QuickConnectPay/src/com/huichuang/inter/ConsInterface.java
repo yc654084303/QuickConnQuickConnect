@@ -18,4 +18,5 @@ public interface ConsInterface {
 	public static final String TRADEIP = "59.56.176.49";
 	public static final int TRADEPORT = 56400;		
 	public static final int KMSPORT = 55400;
+
 }

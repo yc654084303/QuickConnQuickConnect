@@ -9,7 +9,7 @@ class CallbackWrapper extends Callback {
 	}
 
 	@Override
-	void invoke(RequestResult result) {
+	void invoke(Map<String, Object> result) {
 		super.invoke(result);
 		if (ref != null) {
 			ref.invoke(result);
@@ -17,10 +17,18 @@ class CallbackWrapper extends Callback {
 	}
 
 	@Override
-	protected void onSuccess(RequestResult result, Map<String, Object> json) {
+	protected void onSuccess(Map<String, Object> result) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	protected void onFail(RequestResult result) {
+	protected void onFail(Map<String, Object> result) {
+		// TODO Auto-generated method stub
+		
 	}
+
+
+
+	
 }

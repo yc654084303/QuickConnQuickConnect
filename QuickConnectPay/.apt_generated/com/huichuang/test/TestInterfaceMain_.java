@@ -3,7 +3,7 @@
 //
 
 
-package com.huichuang.ui;
+package com.huichuang.test;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,9 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import com.huichuang.quickconnectpay.R.id;
 import com.huichuang.quickconnectpay.R.layout;
 import org.androidannotations.api.builder.ActivityIntentBuilder;
@@ -22,8 +19,8 @@ import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;
 import org.androidannotations.api.view.OnViewChangedNotifier;
 
-public final class NewlandActivity_
-    extends NewlandActivity
+public final class TestInterfaceMain_
+    extends TestInterfaceMain
     implements HasViews, OnViewChangedListener
 {
 
@@ -35,7 +32,7 @@ public final class NewlandActivity_
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
         OnViewChangedNotifier.replaceNotifier(previousNotifier);
-        setContentView(layout.newland_view_activity);
+        setContentView(layout.test_interface_view);
     }
 
     private void init_(Bundle savedInstanceState) {
@@ -60,30 +57,41 @@ public final class NewlandActivity_
         onViewChangedNotifier_.notifyViewChanged(this);
     }
 
-    public static NewlandActivity_.IntentBuilder_ intent(Context context) {
-        return new NewlandActivity_.IntentBuilder_(context);
+    public static TestInterfaceMain_.IntentBuilder_ intent(Context context) {
+        return new TestInterfaceMain_.IntentBuilder_(context);
     }
 
-    public static NewlandActivity_.IntentBuilder_ intent(Fragment supportFragment) {
-        return new NewlandActivity_.IntentBuilder_(supportFragment);
+    public static TestInterfaceMain_.IntentBuilder_ intent(Fragment supportFragment) {
+        return new TestInterfaceMain_.IntentBuilder_(supportFragment);
     }
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        gathering_progressbar = ((RelativeLayout) hasViews.findViewById(id.gathering_progressbar));
-        expandableList = ((ExpandableListView) hasViews.findViewById(id.option_list));
-        gathering_accountName = ((TextView) hasViews.findViewById(id.gathering_accountName));
-        gathering_account = ((TextView) hasViews.findViewById(id.gathering_account));
-        gathering_money = ((EditText) hasViews.findViewById(id.gathering_money));
+        edmessage = ((EditText) hasViews.findViewById(id.edmessage));
         {
-            View view = hasViews.findViewById(id.back);
+            View view = hasViews.findViewById(id.message);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
 
 
                     @Override
                     public void onClick(View view) {
-                        NewlandActivity_.this.myButtonClicked();
+                        TestInterfaceMain_.this.myMessageClicked();
+                    }
+
+                }
+                );
+            }
+        }
+        {
+            View view = hasViews.findViewById(id.register);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        TestInterfaceMain_.this.myregisterClicked();
                     }
 
                 }
@@ -93,17 +101,17 @@ public final class NewlandActivity_
     }
 
     public static class IntentBuilder_
-        extends ActivityIntentBuilder<NewlandActivity_.IntentBuilder_>
+        extends ActivityIntentBuilder<TestInterfaceMain_.IntentBuilder_>
     {
 
         private Fragment fragmentSupport_;
 
         public IntentBuilder_(Context context) {
-            super(context, NewlandActivity_.class);
+            super(context, TestInterfaceMain_.class);
         }
 
         public IntentBuilder_(Fragment fragment) {
-            super(fragment.getActivity(), NewlandActivity_.class);
+            super(fragment.getActivity(), TestInterfaceMain_.class);
             fragmentSupport_ = fragment;
         }
 

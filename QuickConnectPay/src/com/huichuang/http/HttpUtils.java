@@ -1,12 +1,11 @@
-package com.huihuang.utils;
+package com.huichuang.http;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,8 +37,8 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
-import com.huichuang.http.RequestResult;
-import com.huichuang.log.L;
+import com.huihuang.utils.CommonUtils;
+import com.huihuang.utils.NetUtils;
 
 import android.accounts.NetworkErrorException;
 import android.util.Log;
@@ -65,7 +64,7 @@ public class HttpUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static RequestResult doGetByhttpUrlConnection(String path,
+	public static String doGetByhttpUrlConnection(String path,
 			Map<String, String> data) throws Exception {
 		String result = "";
 		// 把路径拼接完整
@@ -77,11 +76,7 @@ public class HttpUtils {
 		connection.setRequestMethod("GET"); // 设置请求模式
 		connection.setReadTimeout(5000); // 设置请求超时时间
 		result = ServiceRespost(result, connection);
-		Map<String, Object> json = null;
-		if (result != null) {
-			json = JSON.toMap(result);
-		}
-		return newResult(json);
+		return result;
 	}
 
 	/**
@@ -126,12 +121,12 @@ public class HttpUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static RequestResult doPostByHttpUrlConnection(String path,
+	public static String doPostByHttpUrlConnection(String path,
 			Map<String, String> data) throws Exception {
-		Map<String, Object> json = null;
 		String result = "";
 		// url请求网址地址 不带参数
 		URL url = new URL(path);
+		
 		// 创建 打开 服务器连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("POST"); // 设置请求模式
@@ -146,7 +141,7 @@ public class HttpUtils {
 				// 适用doGet 和 doPost方式 doGet是放入全路径，doPost是放入""它只要后面的参数即可
 //				temPath.append(path.equals("") ? "" : "?");
 				// 迭代map集合 拼接参数
-				for (Map.Entry<String, String> map :  pubParameter(data).entrySet()) {
+				for (Map.Entry<String, String> map : data.entrySet()) {
 					temPath.append(map.getKey());
 					temPath.append("=");
 					temPath.append(URLEncoder.encode(map.getValue(),"utf-8"));
@@ -158,10 +153,7 @@ public class HttpUtils {
 		// 这里之所以是字节数组的原因是，你可以在这里传入图片音频等非字符的东西
 		outputStream.write(temPath.toString().getBytes());
 		result = ServiceRespost(result, connection);
-		if (result != null) {
-			json = JSON.toMap(result);
-		}
-		return newResult(json);
+		return result;
 	}
 
 	/**
@@ -170,9 +162,8 @@ public class HttpUtils {
 	 * @param path
 	 * @param data
 	 * @return
-	 * @throws UnsupportedEncodingException 
 	 */
-	private static String appendPath(String path, Map<String, String> data) throws UnsupportedEncodingException {
+	private static String appendPath(String path, Map<String, String> data) {
 		// 缓冲字符串，拼接参数用
 		StringBuffer temPath = new StringBuffer(path);
 		// 适用doGet 和 doPost方式 doGet是放入全路径，doPost是放入""它只要后面的参数即可
@@ -181,12 +172,11 @@ public class HttpUtils {
 		for (Map.Entry<String, String> map : data.entrySet()) {
 			temPath.append(map.getKey());
 			temPath.append("=");
-			temPath.append(URLEncoder.encode(map.getValue(),"utf-8"));
+			temPath.append(map.getValue());
 			temPath.append("&");
 		}
 		// 多了一个 & 符号，我们替换掉
 		temPath.replace(temPath.lastIndexOf("&"), temPath.length(), "");
-		
 		return temPath.toString();
 	}
 
@@ -198,14 +188,13 @@ public class HttpUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static RequestResult doGetHttpClient(String path, Map<String, String> data)
+	public static String doGetHttpClient(String path, Map<String, String> data)
 			throws Exception {
-		Map<String, Object> json = null;
 		String result = "";
 		// HttpClient
 		HttpClient client = new DefaultHttpClient();
 		// 构建一个GET请求
-		HttpGet request = new HttpGet(appendPath(path, pubParameter(data)));
+		HttpGet request = new HttpGet(appendPath(path, data));
 		// 设置超时时间 获得参数，从参数中设置时间
 		request.getParams().setIntParameter(
 				CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
@@ -228,13 +217,10 @@ public class HttpUtils {
 			result = outputStream.toString();
 			outputStream.close();
 			is.close();
-			if (result != null) {
-				json = JSON.toMap(result);
-			}
 		} else {
 			throw new NetworkErrorException();
 		}
-		return newResult(json);
+		return result;
 	}
 
 	@SuppressWarnings("unused")
@@ -263,7 +249,6 @@ public class HttpUtils {
 		}
 		return httpClient;
 	}
-	
 	/**
 	 * HttpClient POST提交方式
 	 * 
@@ -272,10 +257,9 @@ public class HttpUtils {
 	 * @return 返回的结果
 	 * @throws Exception
 	 */
-	public static RequestResult doPostHttpClient(String path, Map<String, String> data)
+	public static String doPostHttpClient(String path, Map<String, String> data)
 			throws Exception {
 		String result = "";
-		Map<String, Object> json = null;
 		HttpClient client =new DefaultHttpClient();
 		// 构建POST
 		HttpPost request = new HttpPost(path);
@@ -314,32 +298,70 @@ public class HttpUtils {
 			is.close();
 			// 实体工具类获得实体的数据
 			// result = EntityUtils.toString(entity2);
-			
-			if (result != null) {
-				json = JSON.toMap(result);
-			}
-			
 		}
 		else {
 			throw new NetworkErrorException();
 		}
-		return newResult(json);
+		return result;
 	}
-	private static Map<String, String>pubParameter(Map<String, String> map){
+	/**
+	 * 公共参数
+	 * @param map
+	 * @return
+	 */
+	public static Map<String, String>pubParameter(Map<String, String> map){
+		map.put("serv_id", map.get("requestcode"));
 		map.put("version", "1.0");
 		map.put("source", "1");
 		map.put("timestamp", CommonUtils.getTimestamp());
 		return map;
 		
 	}
-	
-	private static Class<? extends RequestResult> resultType = RequestResult.class;
-	private static RequestResult newResult(Map<String, Object> json) {
-		try {
-			return resultType.getConstructor(Map.class).newInstance(json);
-		} catch (Exception e) {
-			L.e(e.toString());
-			return null;
-		}
+	public static Map<String, String>posParameter(){
+		Map<String, String> map=new HashMap<String, String>();
+		map.put("version", "1.0");
+		map.put("source", "1");
+		map.put("timestamp", CommonUtils.getTimestamp());
+		return map;
+		
 	}
+	public  static String appendpubPath(Map<String, String> data) {
+		// 缓冲字符串，拼接参数用
+		StringBuffer temPath = new StringBuffer();
+		// 迭代map集合 拼接参数
+		for (Map.Entry<String, String> map : data.entrySet()) {
+			temPath.append(map.getKey());
+			temPath.append("=");
+			temPath.append(map.getValue());
+			temPath.append("&");
+		}
+		// 多了一个 & 符号，我们替换掉
+		temPath.replace(temPath.lastIndexOf("&"), temPath.length(), "");
+		
+		return temPath.toString();
+	}
+	/**
+	 * 合成数据的map对象
+	 * @param sid参数
+	 * @param data参数
+	 * @param t参数
+	 * @return 合成的map对象
+	 * @throws Exception
+	 *//*
+	public static String toData(String sid, String data, String t)
+			throws Exception {
+		Map<String, String> hm = new HashMap<String, String>();
+		if (sid != null) {
+			hm.put("sid", Constants.DESencrypt(sid));
+		}
+		if (data != null) {
+			hm.put("data", Constants.DESencrypt(data));
+		}
+		if (t != null) {
+			hm.put("t", t);
+		}
+		return doPostHttpClient(Constants.HTTP_URL, hm);
+//		return doPostByHttpUrlConnection(Constants.HTTP_URL, hm);
+//		return hm;
+	}*/
 }

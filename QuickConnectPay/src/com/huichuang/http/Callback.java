@@ -1,4 +1,5 @@
 package com.huichuang.http;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -6,13 +7,20 @@ import java.util.Map;
  * @author yangcan
  */
 public abstract class Callback {
-	void invoke(RequestResult result) {
-		if (result.result == RequestResult.OK) {
-			onSuccess(result, result.json);
+	void invoke(Map<String, Object>  result) {
+		if (result==null) {
+			result=new HashMap<String, Object>();
+			result.put("returnCode", RequestResult.REQUESCODE_NO);
+			result.put("comments","网络中断");
+			onFail(result);
+			return;
+		}
+		if (result.get("returnCode") == RequestResult.REQUESCODE_OK) {
+			onSuccess(result);
 		} else {
 			onFail(result);
 		}
 	}
-	protected abstract void onSuccess(RequestResult result, Map<String, Object> json); 
-	protected abstract void onFail(RequestResult result) ;
+	protected abstract void onSuccess(Map<String, Object> result); 
+	protected abstract void onFail(Map<String, Object> result) ;
 }

@@ -7,11 +7,13 @@ import java.security.Key;
 
 import javax.crypto.Cipher;
 
-import android.util.Base64;
+import com.huihuang.utils.BASE64;
+
 
 
 
 public class DesPlus {
+	public static String mykey="73KeXRXGzYlz5byvWZl5ZEIKx1VPT6cM";
  private static String strDefaultKey = "national";
  private Cipher encryptCipher = null;
  private Cipher decryptCipher = null;
@@ -209,7 +211,7 @@ public class DesPlus {
 			throws UnsupportedEncodingException, Exception {
 		String encrypt = null;
 		byte[] ret = desEncode(str, key).getBytes("UTF-8");
-		encrypt = new String(Base64.encode(ret,0));
+		encrypt = new String(BASE64.encode(ret));
 		return encrypt;
 	}
 
@@ -224,7 +226,7 @@ public class DesPlus {
 	public String DataDecrypt(String str, String key)
 			throws UnsupportedEncodingException, Exception {
 		String decrypt = null;
-		byte[] ret = desDecode(new String(Base64.decode(str,0)), key)
+		byte[] ret = desDecode(new String(BASE64.decode(str)), key)
 				.getBytes("UTF-8");
 		decrypt = new String(ret, "UTF-8");
 		return decrypt;

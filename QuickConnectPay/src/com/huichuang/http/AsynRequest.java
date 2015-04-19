@@ -1,11 +1,16 @@
 package com.huichuang.http;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.huihuang.utils.XMLPaser;
+
 import android.os.AsyncTask;
 /**
  * 
  * @author yangcan
  *
  */
-public abstract class AsynRequest extends AsyncTask<Void, Void, RequestResult> {
+public abstract class AsynRequest extends AsyncTask<Void, Void, String> {
 	private Callback callback;
 
 	protected AsynRequest(Callback callback) {
@@ -14,8 +19,15 @@ public abstract class AsynRequest extends AsyncTask<Void, Void, RequestResult> {
 	}
 
 	@Override
-	protected final void onPostExecute(RequestResult result) {
+	protected final void onPostExecute(String result) {
 		super.onPostExecute(result);
-		callback.invoke(result);
+		Map<String, Object> map=null;
+		try {
+			map = XMLPaser.parseXml(result);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		callback.invoke(map);
 	}
 }

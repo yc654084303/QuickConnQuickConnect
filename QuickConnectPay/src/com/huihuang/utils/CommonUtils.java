@@ -62,8 +62,7 @@ public class CommonUtils {
 	    return path;
 	 } 
 	public static String getTimestamp(){
-		SimpleDateFormat sDateFormat =   new SimpleDateFormat("yyyyMMddhhmmss");       
+		SimpleDateFormat sDateFormat =   new SimpleDateFormat("yyyyMMddHHmmss");       
 		return sDateFormat.format(new Date());
-		
 	}
 }
