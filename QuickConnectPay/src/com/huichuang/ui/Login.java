@@ -6,9 +6,9 @@ import java.util.Map;
 import com.huichuang.base.BaseActivity;
 import com.huichuang.http.Callback;
 import com.huichuang.http.NetManager;
-import com.huichuang.http.RequestResult;
 import com.huichuang.quickconnectpay.MainActivity;
 import com.huichuang.quickconnectpay.R;
+import com.huichuang.test.bean.RequestResult;
 
 import android.app.Activity;
 import android.content.Intent;

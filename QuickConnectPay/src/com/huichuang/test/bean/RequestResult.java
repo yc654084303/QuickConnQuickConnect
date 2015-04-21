@@ -1,4 +1,4 @@
-package com.huichuang.http;
+package com.huichuang.test.bean;
 
 
 
@@ -6,10 +6,9 @@ package com.huichuang.http;
 import java.util.List;
 import java.util.Map;
 
-import com.huichuang.test.bean.BackrParameterModel;
 
 
-public class RequestResult implements RequestInterface {
+public class RequestResult {
 	private  String returnCode;//状态码
 	private  String comments;//提示信息
 	private  String resTime;//时间
@@ -38,6 +37,11 @@ public class RequestResult implements RequestInterface {
 	}
 	public void setRespBody(BackrParameterModel respBody) {
 		this.respBody = respBody;
+	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return returnCode+","+comments+""+resTime+""+respBody.toString();
 	}
 
 

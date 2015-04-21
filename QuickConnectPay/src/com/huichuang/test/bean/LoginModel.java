@@ -1,22 +1,17 @@
 package com.huichuang.test.bean;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class RegisterModel {
+/**
+ * 用户登录
+ * @author yangcan
+ *
+ */
+public class LoginModel {
 	private String requestcode;
 	private String temcurrent;
-	private String	loginname;
-	private String	password;
-	private String mobilenum;
-	private String 	validcode;
-	 private String trade_id;//交易代码
-	public String getTrade_id() {
-		return trade_id;
-	}
-	public void setTrade_id(String trade_id) {
-		this.trade_id = trade_id;
-	}
+	private String loginname;
+	private String password;
+	private String appscreenflag;
+	private String trade_id;
+	private String validcode;
 	public String getRequestcode() {
 		return requestcode;
 	}
@@ -41,11 +36,17 @@ public class RegisterModel {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getMobilenum() {
-		return mobilenum;
+	public String getAppscreenflag() {
+		return appscreenflag;
 	}
-	public void setMobilenum(String mobilenum) {
-		this.mobilenum = mobilenum;
+	public void setAppscreenflag(String appscreenflag) {
+		this.appscreenflag = appscreenflag;
+	}
+	public String getTrade_id() {
+		return trade_id;
+	}
+	public void setTrade_id(String trade_id) {
+		this.trade_id = trade_id;
 	}
 	public String getValidcode() {
 		return validcode;
@@ -53,7 +54,6 @@ public class RegisterModel {
 	public void setValidcode(String validcode) {
 		this.validcode = validcode;
 	}
-
-
+	
 	
 }
