@@ -435,7 +435,7 @@ public class SimpleTransferListener implements TransferListener {
 			event = inputPwd(swipRslt.getAccount().getAcctHashId(), amt, swipRslt, null);
 			if (event == null) {
 				mainActivity.appendInteractiveInfoAndShow("密码输入撤销", MessageTag.TIP);
-				mainActivity.btnStateInitFinished();
+//				mainActivity.btnStateInitFinished();
 				return;
 			}
 			mainActivity.appendInteractiveInfoAndShow("密码输入完成", MessageTag.NORMAL);
@@ -455,11 +455,11 @@ public class SimpleTransferListener implements TransferListener {
 				public void onEvent(PinInputEvent event, Handler arg1) {
 					if (event.isProcessing()) {
 						NotifyStep step = event.getNotifyStep();
-						if (step == NotifyStep.ENTER) {
-							mainActivity.doPinInputShower(true);
-						} else {
-							mainActivity.doPinInputShower(false);
-						}
+//						if (step == NotifyStep.ENTER) {
+//							mainActivity.doPinInputShower(true);
+//						} else {
+//							mainActivity.doPinInputShower(false);
+//						}
 					} else if (event.isUserCanceled()) {
 						mainActivity.appendInteractiveInfoAndShow("密码输入撤销", MessageTag.TIP);
 						mainActivity.processingUnLock();

@@ -42,5 +42,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="登录" />
+      <View   android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
+        <Button
+        android:id="@+id/transactionflow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="交易流程" />
 </LinearLayout>
 </ScrollView>

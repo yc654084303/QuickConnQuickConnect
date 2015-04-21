@@ -9,6 +9,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.ViewsById;
 
+import com.huichuang.base.BaseActivity;
 import com.huichuang.http.Callback;
 import com.huichuang.http.HttpUtils;
 import com.huichuang.http.NetManager;
@@ -29,14 +30,20 @@ import com.huihuang.utils.PrimaryGenerater;
 import com.landicorp.mpos.util.StringUtil;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.provider.CallLog;
+import android.view.View;
 import android.widget.EditText;
 @EActivity(R.layout.test_interface_view)
-public class TestInterfaceMain extends Activity{
+public class TestInterfaceMain extends BaseActivity{
 	@ViewById
 	EditText edmessage;
+	@Click(R.id.transactionflow)
+	void startExtraActivity(){
+		startActivity(new Intent(this, TransactionflowActivity_.class));
+	}
 	@Click(R.id.Login)
 	void myLoginClicked()
 	{

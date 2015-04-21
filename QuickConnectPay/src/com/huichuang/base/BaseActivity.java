@@ -11,6 +11,7 @@ import com.huichuang.inter.ConsInterface;
 import com.huihuang.utils.Mtoast;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class BaseActivity extends Activity implements ConsInterface{
 	private Boolean processing = false;
 	private String deviceInteraction = "", newstring;
 	private int FLAG = -1;
+	private ProgressDialog progressDialog;
 @Override
 protected void onCreate(Bundle savedInstanceState) {
 	Mtoast.isShow=true;
@@ -37,7 +39,7 @@ public void toActivity(Class<?> cls,Bundle bun){
 	Intent intent=new Intent(this,cls);
 	startActivity(intent);
 }
-public void appendInteractiveInfoAndShow(final String string, final int messageTag) {
+public String appendInteractiveInfoAndShow(final String string, final int messageTag) {
 	runOnUiThread(new Runnable() {
 		@Override
 		public void run() {
@@ -62,15 +64,17 @@ public void appendInteractiveInfoAndShow(final String string, final int messageT
 				break;
 			}
 			deviceInteraction = newstring + "<br>" + deviceInteraction;
+			System.out.println(deviceInteraction);
 //			mTextView.setText(Html.fromHtml(deviceInteraction));
 		}
 	});
+	return deviceInteraction;
 }
 /**
  * 设置成处理中状态
  * 
  * @since ver1.0
- */
+ *//*
 public void btnStateToProcessing() {
 	runOnUiThread(new Runnable() {
 		@Override
@@ -82,11 +86,11 @@ public void btnStateToProcessing() {
 	});
 }
 
-/**
+*//**
  * 设置成等待初始化结束状态
  * 
  * @since ver1.0
- */
+ *//*
 public void btnStateToWaitingInitFinished() {
 	runOnUiThread(new Runnable() {
 		@Override
@@ -98,11 +102,11 @@ public void btnStateToWaitingInitFinished() {
 	});
 }
 
-/**
+*//**
  * 设置成初始化结束状态
  * 
  * @since ver1.0
- */
+ *//*
 public void btnStateInitFinished() {
 	runOnUiThread(new Runnable() {
 		@Override
@@ -115,11 +119,11 @@ public void btnStateInitFinished() {
 
 }
 
-/**
+*//**
  * 设置成设备销毁状态
  * 
  * @since ver1.0
- */
+ *//*
 public void btnStateDestroyed() {
 	runOnUiThread(new Runnable() {
 		@Override
@@ -165,9 +169,9 @@ public void btnStateDisconnected() {
 
 }
 
-/**
+*//**
  * 显示消息
- * */
+ * *//*
 public void showToast(final String message) {
 	runOnUiThread(new Runnable() {
 		@Override
@@ -226,8 +230,27 @@ public void doPinInputShower(final boolean isNext) {
 
 		}
 	});
+}*/
+public void processingLock() {
+	SharedPreferences setting = getSharedPreferences("setting", 0);
+	SharedPreferences.Editor editor = setting.edit();
+	editor.putBoolean("PBOC_LOCK", true);
+	editor.commit();
 }
-
+public boolean processingisLocked() {
+	SharedPreferences setting = getSharedPreferences("setting", 0);
+	if (setting.getBoolean("PBOC_LOCK", true)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+public void processingUnLock() {
+	SharedPreferences setting = getSharedPreferences("setting", 0);
+	SharedPreferences.Editor editor = setting.edit();
+	editor.putBoolean("PBOC_LOCK", false);
+	editor.commit();
+}
 @Override
 protected void onDestroy() {
 	super.onDestroy();
@@ -240,5 +263,26 @@ protected void onDestroy() {
 		k21Tools.disconnect();
 	}
 
+}
+
+public void showProgressDialog(){
+	showProgressDialog("加载中...");
+}
+/**
+ * 显示进度条
+ * @param title
+ * @param message
+ */
+public void showProgressDialog(String message){
+	progressDialog = ProgressDialog.show(this, "请稍等", message, true);
+	progressDialog.setCancelable(false);
+	progressDialog.setCanceledOnTouchOutside(false);
+}
+/**
+ * 隐藏进度条
+ */
+public void hitProgressDialog(){
+	progressDialog.dismiss();
+	
 }
 }

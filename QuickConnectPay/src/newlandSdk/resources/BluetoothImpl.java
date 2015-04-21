@@ -67,16 +67,16 @@ public class BluetoothImpl extends AbstractDevice {
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		mContext.registerReceiver(discoveryReciever, filter);
 	}
-	public BluetoothImpl(NewlandPOSMainActivity mContext) {
-		super();
-		this.mContext = mContext;
-		/**
-		 * 注册一个蓝牙发现监听器
-		 */
-
-		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-		mContext.registerReceiver(discoveryReciever, filter);
-	}
+//	public BluetoothImpl(Activity mContext) {
+//		super();
+//		this.mContext = mContext;
+//		/**
+//		 * 注册一个蓝牙发现监听器
+//		 */
+//
+//		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+//		mContext.registerReceiver(discoveryReciever, filter);
+//	}
 
 	/**
 	 * 检查是蓝牙地址是否已经存在
@@ -100,12 +100,12 @@ public class BluetoothImpl extends AbstractDevice {
 	 */
 	public void startDiscovery() {
 		if (bluetoothAdapter.isEnabled()) {
-			mContext.btnStateToWaitingConn();
+//			mContext.btnStateToWaitingConn();
 			if (discoveredDevices != null) {
 				discoveredDevices.clear();
 			}
 			bluetoothAdapter.startDiscovery();
-
+			mContext.showProgressDialog();
 			mContext.appendInteractiveInfoAndShow("正在搜索...", MessageTag.NORMAL);
 			new Thread(new Runnable() {
 				@Override
@@ -116,13 +116,13 @@ public class BluetoothImpl extends AbstractDevice {
 					} finally {
 						mContext.appendInteractiveInfoAndShow("停止搜索...", MessageTag.NORMAL);
 						bluetoothAdapter.cancelDiscovery();
-						mContext.btnStateDisconnected();
-
+						mContext.hitProgressDialog();
 					}
 					selectBtAddrToInit();
 				}
 			}).start();
 		} else {
+			mContext.hitProgressDialog();
 			mContext.appendInteractiveInfoAndShow("蓝牙未打开", MessageTag.TIP);
 			Intent enabler = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			mContext.startActivityForResult(enabler, REQUEST_ENABLE);
@@ -135,6 +135,9 @@ public class BluetoothImpl extends AbstractDevice {
 
 		int i = 0;
 		String[] bluetoothName = new String[discoveredDevices.size()];
+		if (bluetoothName.length==0) {
+			return;
+		}
 		for (BluetoothDeviceContext device : discoveredDevices) {
 			bluetoothName[i++] = device.name;
 		}
@@ -182,7 +185,7 @@ public class BluetoothImpl extends AbstractDevice {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				mContext.btnStateDisconnected();
+//				mContext.btnStateDisconnected();
 				try {
 					if (controller != null) {
 						controller.disConnect();
@@ -213,10 +216,10 @@ public class BluetoothImpl extends AbstractDevice {
 
 	@Override
 	public void initController() {
-		mContext.btnStateToWaitingConn();
+//		mContext.btnStateToWaitingConn();
 		Me3xDeviceDriver me3xDeviceController = new Me3xDeviceDriver(mContext);
 		controller = me3xDeviceController.initMe3xDeviceController(ME3X_DRIVER_NAME,new BlueToothV100ConnParams(deviceToConnect));
-		mContext.appendInteractiveInfoAndShow("控制器已初始化!", MessageTag.NORMAL);
+		mContext.appendInteractiveInfoAndShow("控制器已初始化", MessageTag.NORMAL);
 	}
 
 	public BroadcastReceiver getDiscoveryReciever() {

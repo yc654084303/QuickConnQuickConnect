@@ -59,8 +59,8 @@ public class NewlandPOSMainActivity extends BaseActivity  {
 		processingUnLock();
 		initView();
 	}
-
-	public void appendInteractiveInfoAndShow(final String string, final int messageTag) {
+	@Override
+	public String appendInteractiveInfoAndShow(final String string, final int messageTag) {
 
 		runOnUiThread(new Runnable() {
 			@Override
@@ -86,6 +86,7 @@ public class NewlandPOSMainActivity extends BaseActivity  {
 				mTextView.setText(Html.fromHtml(deviceInteraction));
 			}
 		});
+		return string;
 	}
 
 	private void initView() {
@@ -365,12 +366,12 @@ public class NewlandPOSMainActivity extends BaseActivity  {
 		}
 	}
 
-	public void processingUnLock() {
-		SharedPreferences setting = getSharedPreferences("setting", 0);
-		SharedPreferences.Editor editor = setting.edit();
-		editor.putBoolean("PBOC_LOCK", false);
-		editor.commit();
-	}
+//	public void processingUnLock() {
+//		SharedPreferences setting = getSharedPreferences("setting", 0);
+//		SharedPreferences.Editor editor = setting.edit();
+//		editor.putBoolean("PBOC_LOCK", false);
+//		editor.commit();
+//	}
 
 	public void doPinInputShower(final boolean isNext) {
 		runOnUiThread(new Runnable() {

@@ -18,9 +18,9 @@ public class Me3xDeviceDriver {
 	private BaseActivity mainActivity;
 	private DeviceController controller;
 
-	public Me3xDeviceDriver(NewlandPOSMainActivity mainActivity) {
-		this.mainActivity = mainActivity;
-	}
+//	public Me3xDeviceDriver(NewlandPOSMainActivity mainActivity) {
+//		this.mainActivity = mainActivity;
+//	}
 	public Me3xDeviceDriver(Activity mainActivity) {
 		this.mainActivity = (BaseActivity) mainActivity;
 	}
@@ -43,7 +43,7 @@ public class Me3xDeviceDriver {
 			}
 		});
 		mainActivity.appendInteractiveInfoAndShow("驱动版本号：" + controller.getCurrentDriverVersion(),MessageTag.NORMAL);
-		mainActivity.btnStateConnectFinished();
+//		mainActivity.btnStateConnectFinished();
 		return controller;
 
 	}

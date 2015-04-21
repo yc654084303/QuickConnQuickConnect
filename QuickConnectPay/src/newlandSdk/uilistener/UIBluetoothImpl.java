@@ -79,16 +79,16 @@ public class UIBluetoothImpl extends AbstractDevice {
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		mContext.registerReceiver(discoveryReciever, filter);
 	}
-	public UIBluetoothImpl(NewlandPOSMainActivity mContext) {
+	/*public UIBluetoothImpl(NewlandPOSMainActivity mContext) {
 		super();
 		this.mContext = mContext;
-		/**
+		*//**
 		 * 注册一个蓝牙发现监听器
-		 */
+		 *//*
 
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		mContext.registerReceiver(discoveryReciever, filter);
-	}
+	}*/
 
 	/**
 	 * 检查是蓝牙地址是否已经存在
@@ -112,7 +112,7 @@ public class UIBluetoothImpl extends AbstractDevice {
 	 */
 	public void startDiscovery() {
 		if (bluetoothAdapter.isEnabled()) {
-			mContext.btnStateToWaitingConn();
+//			mContext.btnStateToWaitingConn();
 			if (discoveredDevices != null) {
 				discoveredDevices.clear();
 			}
@@ -128,7 +128,7 @@ public class UIBluetoothImpl extends AbstractDevice {
 					} finally {
 						mContext.appendInteractiveInfoAndShow("停止搜索...", MessageTag.NORMAL);
 						bluetoothAdapter.cancelDiscovery();
-						mContext.btnStateDisconnected();
+//						mContext.btnStateDisconnected();
 
 					}
 					selectBtAddrToInit();
@@ -194,7 +194,7 @@ public class UIBluetoothImpl extends AbstractDevice {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				mContext.btnStateDisconnected();
+//				mContext.btnStateDisconnected();
 				try {
 					if (controller != null) {
 						controller.disConnect();
@@ -225,7 +225,7 @@ public class UIBluetoothImpl extends AbstractDevice {
 
 	@Override
 	public void initController() {
-		mContext.btnStateToWaitingConn();
+//		mContext.btnStateToWaitingConn();
 		Me3xDeviceDriver me3xDeviceController = new Me3xDeviceDriver(mContext);
 		controller = me3xDeviceController.initMe3xDeviceController(ME3X_DRIVER_NAME,new BlueToothV100ConnParams(deviceToConnect));
 		mContext.appendInteractiveInfoAndShow("控制器已初始化!", MessageTag.NORMAL);
