@@ -22,13 +22,14 @@ public abstract class AsynRequest extends AsyncTask<Void, Void, String> {
 	@Override
 	protected final void onPostExecute(String result) {
 		super.onPostExecute(result);
-		L.e(result);
-		Map<String, Object> map=null;
+		L.e("=========================================="+result);
+		Map<String, String> map=null;
 		try {
 			map = XMLPaser.parseXml(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		L.e("=========================================="+map);
 		callback.invoke(map);
 	}
 }

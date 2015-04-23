@@ -3,7 +3,9 @@ package newlandSdk.listener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import newlandSdk.common.Const;
@@ -59,6 +61,7 @@ import com.newland.mtype.util.ISOUtils;
  * 
  */
 public class SimpleTransferListener implements TransferListener {
+	private Map<String, String>map=new HashMap<String, String>();
 	private String TAG = BaseActivity.class.getName();
 	private AbstractDevice connected_device;
 	private BaseActivity mainActivity;
@@ -210,22 +213,21 @@ public class SimpleTransferListener implements TransferListener {
 	}
 
 	@Override
-	public void onRequestOnline(EmvTransController controller, EmvTransInfo context) throws Exception {
-		mainActivity.appendInteractiveInfoAndShow(">>>>交易完成，交易结果(DF75):" + context.getExecuteRslt(), MessageTag.DATA);
-		TLVPackage tlvPackage = context.setExternalInfoPackage(L_55TAGS);
+	public void onRequestOnline(EmvTransController controller, EmvTransInfo Emv) throws Exception {
+		mainActivity.appendInteractiveInfoAndShow(">>>>交易完成，交易结果(DF75):" + Emv.getExecuteRslt(), MessageTag.DATA);
+		TLVPackage tlvPackage = Emv.setExternalInfoPackage(L_55TAGS);
 		mainActivity.appendInteractiveInfoAndShow(">>>>55域打包集合:" + ISOUtils.hexString(tlvPackage.pack()), MessageTag.DATA);
 		// 此处判断是开启度开启操作card_reader_flag=0，PBOC流程 card_reader_flag=1
 		if (((KLApplication) mainActivity.getApplication()).getOpen_card_reader_flag() != 1) {
-
-			mainActivity.appendInteractiveInfoAndShow("开启联机交易:" + context.externalToString(), MessageTag.DATA);
+			mainActivity.appendInteractiveInfoAndShow("开启联机交易:" + Emv.externalToString(), MessageTag.DATA);
 			mainActivity.appendInteractiveInfoAndShow(">>>>请求在线交易处理", MessageTag.NORMAL);
-			mainActivity.appendInteractiveInfoAndShow("终端验证结果(95):" + (context.getTerminalVerificationResults() == null ? "无返回" : Dump.getHexDump(context.getTerminalVerificationResults())), MessageTag.DATA);
-			mainActivity.appendInteractiveInfoAndShow("应用密文(9f26):" + (context.getAppCryptogram() == null ? "无返回" : Dump.getHexDump(context.getAppCryptogram())), MessageTag.DATA);
-			mainActivity.appendInteractiveInfoAndShow("持卡人验证方法结果(9f34):" + (context.getCvmRslt() == null ? "无返回" : Dump.getHexDump(context.getCvmRslt())), MessageTag.DATA);
-			mainActivity.appendInteractiveInfoAndShow(">>>>卡号:" + context.getCardNo(), MessageTag.DATA);
-			mainActivity.appendInteractiveInfoAndShow(">>>>卡序列号:" + context.getCardSequenceNumber(), MessageTag.DATA);
-			if (null != context.getTrack_2_eqv_data()) {
-				mainActivity.appendInteractiveInfoAndShow(">>>>二磁道明文:" + ISOUtils.hexString(context.getTrack_2_eqv_data()), MessageTag.DATA);
+			mainActivity.appendInteractiveInfoAndShow("终端验证结果(95):" + (Emv.getTerminalVerificationResults() == null ? "无返回" : Dump.getHexDump(Emv.getTerminalVerificationResults())), MessageTag.DATA);
+			mainActivity.appendInteractiveInfoAndShow("应用密文(9f26):" + (Emv.getAppCryptogram() == null ? "无返回" : Dump.getHexDump(Emv.getAppCryptogram())), MessageTag.DATA);
+			mainActivity.appendInteractiveInfoAndShow("持卡人验证方法结果(9f34):" + (Emv.getCvmRslt() == null ? "无返回" : Dump.getHexDump(Emv.getCvmRslt())), MessageTag.DATA);
+			mainActivity.appendInteractiveInfoAndShow(">>>>卡号:" + Emv.getCardNo(), MessageTag.DATA);
+			mainActivity.appendInteractiveInfoAndShow(">>>>卡序列号:" + Emv.getCardSequenceNumber(), MessageTag.DATA);
+			if (null != Emv.getTrack_2_eqv_data()) {
+				mainActivity.appendInteractiveInfoAndShow(">>>>二磁道明文:" + ISOUtils.hexString(Emv.getTrack_2_eqv_data()), MessageTag.DATA);
 			}
 
 			// 获取IC卡磁道信息
@@ -244,7 +246,7 @@ public class SimpleTransferListener implements TransferListener {
 				mainActivity.appendInteractiveInfoAndShow("<br>请输入交易密码...", MessageTag.NORMAL);
 				me15doPinInput(swipResult);
 			}else{
-				mainActivity.appendInteractiveInfoAndShow(">>>>密码:" + context.getOnLinePin(), MessageTag.DATA);
+				mainActivity.appendInteractiveInfoAndShow(">>>>密码:" + Emv.getOnLinePin(), MessageTag.DATA);
 			}
 
 			// todo !!!!!!!!!!从该处context中获取ic卡卡片信息后，发送银联8583交易
@@ -389,13 +391,17 @@ public class SimpleTransferListener implements TransferListener {
 						mainActivity.appendInteractiveInfoAndShow("刷卡撤销", MessageTag.TIP);
 						return;
 					}
+					((KLApplication) mainActivity.getApplication()).setSwipResult(swipRslt);
 					byte[] secondTrack = swipRslt.getSecondTrackData();
 					byte[] thirdTrack = swipRslt.getThirdTrackData();
+					//这里获取二三磁道数据
+					mainActivity.appendInteractiveInfoAndShow(new String(secondTrack), 212);
+					mainActivity.appendInteractiveInfoAndShow(new String(thirdTrack), 213);
 					mainActivity.appendInteractiveInfoAndShow("getValidDate:" + swipRslt.getValidDate(), MessageTag.DATA);
 					mainActivity.appendInteractiveInfoAndShow("getValidDate:" + swipRslt.getServiceCode(), MessageTag.DATA);
 					mainActivity.appendInteractiveInfoAndShow("刷卡成功", MessageTag.NORMAL);
-					mainActivity.appendInteractiveInfoAndShow("二磁道:" + (secondTrack == null ? "null" : Dump.getHexDump(secondTrack)), MessageTag.DATA);
-					mainActivity.appendInteractiveInfoAndShow("三磁道:" + (thirdTrack == null ? "null" : Dump.getHexDump(thirdTrack)), MessageTag.DATA);
+					mainActivity.appendInteractiveInfoAndShow("二磁道" + (secondTrack == null ? "null" : Dump.getHexDump(secondTrack)), MessageTag.DATA);
+					mainActivity.appendInteractiveInfoAndShow("三磁道" + (thirdTrack == null ? "null" : Dump.getHexDump(thirdTrack)), MessageTag.DATA);
 					mainActivity.appendInteractiveInfoAndShow("<br>请输入密码...", MessageTag.NORMAL);
 					// 密码输入
 					if(swipFlag == 0 ){
@@ -414,7 +420,7 @@ public class SimpleTransferListener implements TransferListener {
 	}
 
 	private PinInputEvent inputPwd(String acctHash, BigDecimal amt, SwipResult swipRslt, DeviceEventListener<PinInputEvent> listener) throws Exception {
-		DecimalFormat df = new DecimalFormat("#.00");
+		DecimalFormat df = new DecimalFormat("#0.00");
 		String msg = "消费金额为:" + df.format(amt) + "\n请输入交易密码:";
 		if (listener == null)
 			return connected_device.getController().startPininput(acctHash, 6, msg);
@@ -441,7 +447,6 @@ public class SimpleTransferListener implements TransferListener {
 			mainActivity.appendInteractiveInfoAndShow("密码输入完成", MessageTag.NORMAL);
 			mainActivity.appendInteractiveInfoAndShow("ksn:" + Dump.getHexDump(event.getKsn()), MessageTag.DATA);
 			mainActivity.appendInteractiveInfoAndShow("密码:" + Dump.getHexDump(event.getEncrypPin()), MessageTag.DATA);
-
 		} else {// IM81连接方式
 			event = inputPwd(swipRslt.getAccount().getAcctHashId(), new BigDecimal(100),
 					swipRslt, new DeviceEventListener<PinInputEvent>() {
@@ -546,7 +551,7 @@ public class SimpleTransferListener implements TransferListener {
 	private void reDoSwipeCard() {
 		mainActivity.processingLock();
 		BigDecimal amt = ((KLApplication) mainActivity.getApplication()).getAmt();
-		DecimalFormat df = new DecimalFormat("#.00");
+		DecimalFormat df = new DecimalFormat("#0.00");
 		mainActivity.appendInteractiveInfoAndShow("Amount:" + df.format(amt).toString() + "<br>Please swipe card", MessageTag.NORMAL);
 		connected_device.getController().clearScreen();
 		// swipe card
@@ -559,6 +564,9 @@ public class SimpleTransferListener implements TransferListener {
 			}
 			byte[] secondTrack = swipRslt.getSecondTrackData();
 			byte[] thirdTrack = swipRslt.getThirdTrackData();
+			//这里获取二三磁道数据
+			mainActivity.appendInteractiveInfoAndShow(new String(secondTrack), 212);
+			mainActivity.appendInteractiveInfoAndShow(new String(thirdTrack), 213);
 			mainActivity.appendInteractiveInfoAndShow("getValidDate:" + swipRslt.getValidDate(), MessageTag.DATA);
 			mainActivity.appendInteractiveInfoAndShow("getValidDate:" + swipRslt.getServiceCode(), MessageTag.DATA);
 			mainActivity.appendInteractiveInfoAndShow("刷卡成功", MessageTag.NORMAL);

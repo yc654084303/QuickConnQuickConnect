@@ -9,6 +9,7 @@ import newlandSdk.resources.UsbImpl;
 
 import com.huichuang.inter.ConsInterface;
 import com.huihuang.utils.Mtoast;
+import com.huihuang.utils.NetUtils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -29,9 +30,12 @@ public class BaseActivity extends Activity implements ConsInterface{
 	private Boolean processing = false;
 	private String deviceInteraction = "", newstring;
 	private int FLAG = -1;
-	private ProgressDialog progressDialog;
+	private  ProgressDialog waitingDialog;
 @Override
 protected void onCreate(Bundle savedInstanceState) {
+	if (!NetUtils.isConnected(this)) {
+		NetUtils.setNetworkMethod(this);
+	}
 	Mtoast.isShow=true;
 	super.onCreate(savedInstanceState);
 }
@@ -70,167 +74,7 @@ public String appendInteractiveInfoAndShow(final String string, final int messag
 	});
 	return deviceInteraction;
 }
-/**
- * 设置成处理中状态
- * 
- * @since ver1.0
- *//*
-public void btnStateToProcessing() {
-	runOnUiThread(new Runnable() {
-		@Override
-		public void run() {
-//			btnConnect.setEnabled(false);
-//			btnDisconnect.setEnabled(false);
-//			processing = true;
-		}
-	});
-}
 
-*//**
- * 设置成等待初始化结束状态
- * 
- * @since ver1.0
- *//*
-public void btnStateToWaitingInitFinished() {
-	runOnUiThread(new Runnable() {
-		@Override
-		public void run() {
-//			btnConnect.setEnabled(false);
-//			btnDisconnect.setEnabled(false);
-//			processing = true;
-		}
-	});
-}
-
-*//**
- * 设置成初始化结束状态
- * 
- * @since ver1.0
- *//*
-public void btnStateInitFinished() {
-	runOnUiThread(new Runnable() {
-		@Override
-		public void run() {
-//			btnConnect.setEnabled(false);
-//			btnDisconnect.setEnabled(true);
-//			processing = false;
-		}
-	});
-
-}
-
-*//**
- * 设置成设备销毁状态
- * 
- * @since ver1.0
- *//*
-public void btnStateDestroyed() {
-	runOnUiThread(new Runnable() {
-		@Override
-		public void run() {
-//			btnConnect.setEnabled(true);
-//			btnDisconnect.setEnabled(false);
-//			processing = true;
-		}
-	});
-
-}
-
-public void btnStateToWaitingConn() {
-	runOnUiThread(new Runnable() {
-		@Override
-		public void run() {
-//			btnConnect.setEnabled(false);
-//			btnDisconnect.setEnabled(false);
-		}
-	});
-
-}
-
-public void btnStateConnectFinished() {
-	runOnUiThread(new Runnable() {
-		@Override
-		public void run() {
-//			btnConnect.setEnabled(false);
-//			btnDisconnect.setEnabled(true);
-		}
-	});
-
-}
-
-public void btnStateDisconnected() {
-	runOnUiThread(new Runnable() {
-		@Override
-		public void run() {
-//			btnConnect.setEnabled(true);
-//			btnDisconnect.setEnabled(false);
-		}
-	});
-
-}
-
-*//**
- * 显示消息
- * *//*
-public void showToast(final String message) {
-	runOnUiThread(new Runnable() {
-		@Override
-		public void run() {
-			Toast.makeText(getApplication(), message, Toast.LENGTH_SHORT).show();
-		}
-	});
-}
-
-//public Button getBtnConnect() {
-//	return btnConnect;
-//}
-
-public Boolean getProcessing() {
-	return processing;
-}
-
-public void setProcessing(Boolean processing) {
-	this.processing = processing;
-}
-
-public void processingLock() {
-	SharedPreferences setting = getSharedPreferences("setting", 0);
-	SharedPreferences.Editor editor = setting.edit();
-	editor.putBoolean("PBOC_LOCK", true);
-	editor.commit();
-}
-
-public boolean processingisLocked() {
-	SharedPreferences setting = getSharedPreferences("setting", 0);
-	if (setting.getBoolean("PBOC_LOCK", true)) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-public void processingUnLock() {
-	SharedPreferences setting = getSharedPreferences("setting", 0);
-	SharedPreferences.Editor editor = setting.edit();
-	editor.putBoolean("PBOC_LOCK", false);
-	editor.commit();
-}
-
-public void doPinInputShower(final boolean isNext) {
-	runOnUiThread(new Runnable() {
-		@Override
-		public void run() {
-//			if (isNext) {
-//				deviceInteraction = "*" + deviceInteraction;
-//				mTextView.setText(Html.fromHtml(deviceInteraction));
-//			} else {
-//				deviceInteraction = deviceInteraction.substring(1, deviceInteraction.length());
-//				mTextView.setText(Html.fromHtml(deviceInteraction));
-//			}
-
-		}
-	});
-}*/
 public void processingLock() {
 	SharedPreferences setting = getSharedPreferences("setting", 0);
 	SharedPreferences.Editor editor = setting.edit();
@@ -265,24 +109,31 @@ protected void onDestroy() {
 
 }
 
-public void showProgressDialog(){
-	showProgressDialog("加载中...");
-}
+//public void showProgressDialog(){
+//	showWaitingDialog("加载中...");
+//}
 /**
- * 显示进度条
- * @param title
- * @param message
+ * 显示一个等待的对话框
  */
-public void showProgressDialog(String message){
-	progressDialog = ProgressDialog.show(this, "请稍等", message, true);
-	progressDialog.setCancelable(false);
-	progressDialog.setCanceledOnTouchOutside(false);
-}
-/**
- * 隐藏进度条
- */
-public void hitProgressDialog(){
-	progressDialog.dismiss();
-	
-}
+//protected final void showWaitingDialog() {
+//	waitingDialog = new ProgressDialog(this);
+//	waitingDialog.setCancelable(false);
+//	waitingDialog.setIndeterminate(true);
+//	waitingDialog.setMessage(getString(R.string.waiting));
+//	waitingDialog.show();
+//}
+//protected final void showWaitingDialog(String str) {
+//	waitingDialog = new ProgressDialog(this);
+//	waitingDialog.setCancelable(false);
+//	waitingDialog.setIndeterminate(true);
+//	waitingDialog.setMessage(str);
+//	waitingDialog.show();
+//}
+///**
+// * 关闭等待的对话框
+// */
+//public final void closeWaitingDialog() {
+//	waitingDialog.dismiss();
+//	waitingDialog = null;
+//}
 }

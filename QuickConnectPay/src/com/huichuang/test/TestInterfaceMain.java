@@ -56,7 +56,17 @@ public class TestInterfaceMain extends BaseActivity{
 		login.setTrade_id(BackrParameterModel.getInstance().getTrade_id());
 //		login.setAppscreenflag("");不传
 		Map<String, String> bean2Map = BeanToMap.bean2Map(login); 
-		setHttpData(bean2Map);
+		Map<String, String> data = HttpUtils.setHttpData(bean2Map);
+		NetManager.reqPostRegister(data, new Callback() {
+			@Override
+			protected void onSuccess(Map<String, String> result) {
+				Mtoast.show(getApplicationContext(), "成功", 0);
+			}
+			@Override
+			protected void onFail(Map<String, String> result) {
+				Mtoast.show(getApplicationContext(), "失败"+result.get("comments"), 0);
+			}
+		});
 	}
 	@Click(R.id.message)
 	void myMessageClicked() {
@@ -64,21 +74,43 @@ public class TestInterfaceMain extends BaseActivity{
 		messageModel.setRequestcode("1705");
 		messageModel.setMobile("13381990853");
 		Map<String, String> bean2Map = BeanToMap.bean2Map(messageModel); 
-		setHttpData(bean2Map);
+		Map<String, String> data = HttpUtils.setHttpData(bean2Map);
+		NetManager.reqPostRegister(data, new Callback() {
+			@Override
+			protected void onSuccess(Map<String, String> result) {
+				Mtoast.show(getApplicationContext(), "成功", 0);
+			}
+			@Override
+			protected void onFail(Map<String, String> result) {
+				Mtoast.show(getApplicationContext(), "失败"+result.get("comments"), 0);
+			}
+		});
 	}
 	@Click(R.id.register) 
 	void myregisterClicked() {
 		RegisterModel registerData = new RegisterModel();
 		registerData.setRequestcode("1701");
-		 registerData.setValidcode(getValidcode());
+//		 registerData.setValidcode(getValidcode());
+		 registerData.setValidcode("123111");
 		registerData.setTemcurrent(PrimaryGenerater.getInstance().generaterNextNumber());
 		registerData.setLoginname("13381990853");
 		  registerData.setPassword("123456");
 		  registerData.setMobilenum("13381990853");
-		  registerData.setTrade_id(BackrParameterModel.getInstance().getTrade_id());
+//		  registerData.setTrade_id(BackrParameterModel.getInstance().getTrade_id());
 		Map<String, String> bean2Map = BeanToMap.bean2Map(registerData); 
-		setHttpData(bean2Map);
+		Map<String, String> data = HttpUtils.setHttpData(bean2Map);
+			NetManager.reqPostRegister(data, new Callback() {
+				@Override
+				protected void onSuccess(Map<String, String> result) {
+					Mtoast.show(getApplicationContext(), "成功", 0);
+				}
+				@Override
+				protected void onFail(Map<String, String> result) {
+					Mtoast.show(getApplicationContext(), "失败"+result.get("comments"), 0);
+				}
+			});
 	}
+	
 	private String getValidcode(){
 		if (edmessage.getText().toString().trim().equals("")||edmessage.getText().toString().trim()==null) {
 			return "123111";
@@ -87,32 +119,5 @@ public class TestInterfaceMain extends BaseActivity{
 		}
 		
 	}
-	private void setHttpData(Map<String, String> bean2Map) {
-		Map<String, String> pubParameter = HttpUtils.pubParameter(bean2Map);
-			String req= HttpUtils.appendpubPath(pubParameter);
-			 PosParameterModel parameter=new PosParameterModel();
-			L.e(req);
-			try {
-				DesPlus des=new DesPlus();
-				parameter.setReq_str(des.DataEncrypt(req,DesPlus.mykey));
-				parameter.setSign(MD5HexUtil.getEncryptedMd5(des.DataEncrypt(req,DesPlus.mykey)+DesPlus.mykey));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Map<String, String> data = BeanToMap.bean2Map(parameter); 
-			if (!NetUtils.isConnected(this)) {
-			Mtoast.show(this, "网络不可用", 0);
-			return;
-			}
-			NetManager.reqPostRegister(data, new Callback() {
-				@Override
-				protected void onSuccess(Map<String, Object> result) {
-					Mtoast.show(getApplicationContext(), "成功", 0);
-				}
-				@Override
-				protected void onFail(Map<String, Object> result) {
-					Mtoast.show(getApplicationContext(), "失败"+result.get("comments"), 0);
-				}
-			});
-	}
+	
 }

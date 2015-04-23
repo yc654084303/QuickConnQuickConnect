@@ -14,12 +14,27 @@
         android:layout_width="fill_parent"
          android:background="@android:color/black"
     android:layout_height="1dp"
-    android:text="消费"/>
+   />
+       <Button 
+        android:id="@+id/butsign"
+        android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="签到"
+    />
+    <LinearLayout   android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+      <Button 
+        android:id="@+id/butconsume_id"
+        android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="消费tonken"
+    />
     <Button 
         android:id="@+id/butconsume"
         android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="消费"
     />
-
+</LinearLayout>
 </LinearLayout>

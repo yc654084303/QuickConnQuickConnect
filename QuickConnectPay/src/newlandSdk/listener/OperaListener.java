@@ -158,168 +158,7 @@ public class OperaListener implements OnChildClickListener {
 						mainActivity.appendInteractiveInfoAndShow("设备当前仅能执行撤消操作...", MessageTag.TIP);
 						break;
 					} else {
-						new Thread(new Runnable() {
-
-							@Override
-							public void run() {
-								connected_device.connectDevice();
-								try {
-									mainActivity.processingLock();
-									Looper.prepare();
-									final Builder builder_ic_pinInput = new android.app.AlertDialog.Builder(mainActivity);
-									builder_ic_pinInput.setTitle("密码输入方式:【仅针对IC卡有效】");
-									builder_ic_pinInput.setSingleChoiceItems(IC_PIN_INPUT, 0, new OnClickListener() {
-
-										@Override
-										public void onClick(DialogInterface arg0, int arg1) {
-											((KLApplication) mainActivity.getApplication()).setIc_pinInput_flag(arg1);
-											ic_pinInput_dialog.dismiss();
-											amt_dialog.show();
-										}
-									});
-
-									mainActivity.runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											ic_pinInput_dialog = builder_ic_pinInput.create();
-											ic_pinInput_dialog.setCancelable(false);
-											ic_pinInput_dialog.setCanceledOnTouchOutside(false);
-											ic_pinInput_dialog.show();
-										}
-									});
-									final Builder builder = new android.app.AlertDialog.Builder(mainActivity);
-									LayoutInflater inflater = LayoutInflater.from(mainActivity);
-									final View view = inflater.inflate(R.layout.dialog_amtinput, null);
-									builder.setTitle("请输入交易金额（最高12位）:");
-									edit_amt_input = (EditText) view.findViewById(R.id.edit_amt_input);
-									btn_sure = (Button) view.findViewById(R.id.btn_sure);
-									btn_cancel = (Button) view.findViewById(R.id.btn_cancel);
-									builder.setView(view);
-									edit_amt_input.addTextChangedListener(new TextWatcher() {
-
-										@Override
-										public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-											temp = arg0;
-
-										}
-
-										@Override
-										public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
-										}
-
-										@Override
-										public void afterTextChanged(Editable arg0) {
-											if (temp.length() > 12) {
-												btn_sure.setEnabled(false);
-											} else {
-												btn_sure.setEnabled(true);
-											}
-
-										}
-									});
-
-									btn_sure.setOnClickListener(new android.view.View.OnClickListener() {
-
-										@Override
-										public void onClick(View arg0) {
-											if (connected_device.isControllerAlive()) {
-												Editable editable = edit_amt_input.getText();
-												try {
-													DecimalFormat df = new DecimalFormat("#.00");
-													amt = new BigDecimal(editable.toString());
-													((KLApplication) mainActivity.getApplication()).setAmt(amt);
-													mainActivity.appendInteractiveInfoAndShow("交易金额为:" + df.format(amt), MessageTag.DATA);
-													mainActivity.appendInteractiveInfoAndShow("请刷卡或插入IC卡...", MessageTag.NORMAL);
-													new Thread(new Runnable() {
-														@Override
-														public void run() {
-															if (connected_device.isControllerAlive() == false) {
-																connected_device.connectDevice();
-															}
-															try {
-																DecimalFormat df = new DecimalFormat("#.00");
-																connected_device.getController().startTransfer(mainActivity,  new OpenCardType[]{OpenCardType.SWIPER,OpenCardType.ICCARD,OpenCardType.NCCARD}, "交易金额为:" + df.format(amt) + "\n请刷卡或者插入IC卡", amt, 60, TimeUnit.SECONDS, CardRule.ALLOW_LOWER,  new SimpleTransferListener(connected_device, mainActivity));
-															} catch (Exception e) {
-																if (e instanceof ProcessTimeoutException) {
-																	mainActivity.appendInteractiveInfoAndShow("swipe failed:超时!" + e.getMessage(), MessageTag.ERROR);
-																	mainActivity.processingUnLock();
-																	return;
-																} else if (e instanceof DeviceRTException) {
-																	mainActivity.appendInteractiveInfoAndShow("swipe failed:交易失败" + e.getMessage(), MessageTag.ERROR);
-																	// mainActivity.appendInteractiveInfoAndShow("请重新刷卡或插卡",
-																	// MessageTag.TIP);
-																	final Builder builder = new android.app.AlertDialog.Builder(mainActivity);
-																	builder.setTitle("swipe failed:").setMessage("是否重新刷卡或插卡?");
-																	builder.setPositiveButton("是", new OnClickListener() {
-
-																		@Override
-																		public void onClick(DialogInterface arg0, int arg1) {
-																			new Thread(new Runnable() {
-																				@Override
-																				public void run() {
-																					message_dialog.dismiss();
-																					reDoSwipeorInsertCard();
-																				}
-																			}).start();
-																		}
-																	});
-																	builder.setNegativeButton("否", new OnClickListener() {
-
-																		@Override
-																		public void onClick(DialogInterface arg0, int arg1) {
-																			message_dialog.dismiss();
-																			mainActivity.processingUnLock();
-																		}
-																	});
-																	mainActivity.runOnUiThread(new Runnable() {
-																		@Override
-																		public void run() {
-																			message_dialog = builder.create();
-																			message_dialog.setCancelable(false);
-																			message_dialog.setCanceledOnTouchOutside(false);
-																			message_dialog.show();
-																		}
-																	});
-																}
-															}
-														}
-													}).start();
-													amt_dialog.dismiss();
-												} catch (NumberFormatException e) {
-													mainActivity.appendInteractiveInfoAndShow("输入金额有误", MessageTag.ERROR);
-													mainActivity.processingUnLock();
-												}
-
-											} else {
-												mainActivity.appendInteractiveInfoAndShow("设备断开", MessageTag.ERROR);
-											}
-										}
-									});
-									btn_cancel.setOnClickListener(new android.view.View.OnClickListener() {
-
-										@Override
-										public void onClick(View arg0) {
-											mainActivity.appendInteractiveInfoAndShow("交易取消", MessageTag.ERROR);
-											mainActivity.processingUnLock();
-											amt_dialog.dismiss();
-
-										}
-									});
-									mainActivity.runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											amt_dialog = builder.create();
-											amt_dialog.setCancelable(false);
-											amt_dialog.setCanceledOnTouchOutside(false);
-										}
-									});
-								} catch (Exception e) {
-									e.printStackTrace();
-									mainActivity.appendInteractiveInfoAndShow("执行pboc交易失败，" + e.getMessage(), MessageTag.ERROR);
-								}
-							}
-						}).start();
+						jiaoyi();
 					}
 					break;
 				}
@@ -2660,6 +2499,173 @@ public class OperaListener implements OnChildClickListener {
 		}
 		return false;
 
+	}
+
+	public void jiaoyi() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				connected_device.connectDevice();
+				try {
+					mainActivity.processingLock();
+					Looper.prepare();
+					final Builder builder_ic_pinInput = new android.app.AlertDialog.Builder(mainActivity);
+					builder_ic_pinInput.setTitle("密码输入方式:【仅针对IC卡有效】");
+					builder_ic_pinInput.setSingleChoiceItems(IC_PIN_INPUT, 0, new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							((KLApplication) mainActivity.getApplication()).setIc_pinInput_flag(arg1);
+							ic_pinInput_dialog.dismiss();
+							amt_dialog.show();
+						}
+					});
+
+					mainActivity.runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							ic_pinInput_dialog = builder_ic_pinInput.create();
+							ic_pinInput_dialog.setCancelable(false);
+							ic_pinInput_dialog.setCanceledOnTouchOutside(false);
+							ic_pinInput_dialog.show();
+						}
+					});
+					final Builder builder = new android.app.AlertDialog.Builder(mainActivity);
+					LayoutInflater inflater = LayoutInflater.from(mainActivity);
+					final View view = inflater.inflate(R.layout.dialog_amtinput, null);
+					builder.setTitle("请输入交易金额（最高12位）:");
+					edit_amt_input = (EditText) view.findViewById(R.id.edit_amt_input);
+					btn_sure = (Button) view.findViewById(R.id.btn_sure);
+					btn_cancel = (Button) view.findViewById(R.id.btn_cancel);
+					builder.setView(view);
+					edit_amt_input.addTextChangedListener(new TextWatcher() {
+
+						@Override
+						public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+							temp = arg0;
+
+						}
+						@Override
+						public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+						}
+
+						@Override
+						public void afterTextChanged(Editable arg0) {
+							if (temp.length() > 12) {
+								btn_sure.setEnabled(false);
+							} else {
+								btn_sure.setEnabled(true);
+							}
+
+						}
+					});
+
+					btn_sure.setOnClickListener(new android.view.View.OnClickListener() {
+
+						@Override
+						public void onClick(View arg0) {
+							if (connected_device.isControllerAlive()) {
+								Editable editable = edit_amt_input.getText();
+								try {
+									DecimalFormat df = new DecimalFormat("#0.00");
+									amt = new BigDecimal(editable.toString());
+									((KLApplication) mainActivity.getApplication()).setAmt(amt);
+									mainActivity.appendInteractiveInfoAndShow("交易金额为:" + df.format(amt), MessageTag.DATA);
+									mainActivity.appendInteractiveInfoAndShow("请刷卡或插入IC卡...", MessageTag.NORMAL);
+									new Thread(new Runnable() {
+										@Override
+										public void run() {
+											if (connected_device.isControllerAlive() == false) {
+												connected_device.connectDevice();
+											}
+											try {
+												DecimalFormat df = new DecimalFormat("#0.00");
+												connected_device.getController().startTransfer(mainActivity, 
+														new OpenCardType[]{OpenCardType.SWIPER,
+														OpenCardType.ICCARD,OpenCardType.NCCARD}, 
+														"交易金额为:" + df.format(amt) + "\n请刷卡或者插入IC卡", amt, 60,
+														TimeUnit.SECONDS, 
+														CardRule.ALLOW_LOWER,  
+														new SimpleTransferListener(connected_device, mainActivity));
+											} catch (Exception e) {
+												if (e instanceof ProcessTimeoutException) {
+													mainActivity.appendInteractiveInfoAndShow("swipe failed:超时!" + e.getMessage(), MessageTag.ERROR);
+													mainActivity.processingUnLock();
+													return;
+												} else if (e instanceof DeviceRTException) {
+													mainActivity.appendInteractiveInfoAndShow("swipe failed:交易失败" + e.getMessage(), MessageTag.ERROR);
+													// mainActivity.appendInteractiveInfoAndShow("请重新刷卡或插卡",
+													// MessageTag.TIP);
+													final Builder builder = new android.app.AlertDialog.Builder(mainActivity);
+													builder.setTitle("swipe failed:").setMessage("是否重新刷卡或插卡?");
+													builder.setPositiveButton("是", new OnClickListener() {
+
+														@Override
+														public void onClick(DialogInterface arg0, int arg1) {
+															new Thread(new Runnable() {
+																@Override
+																public void run() {
+																	message_dialog.dismiss();
+																	reDoSwipeorInsertCard();
+																}
+															}).start();
+														}
+													});
+													builder.setNegativeButton("否", new OnClickListener() {
+
+														@Override
+														public void onClick(DialogInterface arg0, int arg1) {
+															message_dialog.dismiss();
+															mainActivity.processingUnLock();
+														}
+													});
+													mainActivity.runOnUiThread(new Runnable() {
+														@Override
+														public void run() {
+															message_dialog = builder.create();
+															message_dialog.setCancelable(false);
+															message_dialog.setCanceledOnTouchOutside(false);
+															message_dialog.show();
+														}
+													});
+												}
+											}
+										}
+									}).start();
+									amt_dialog.dismiss();
+								} catch (NumberFormatException e) {
+									mainActivity.appendInteractiveInfoAndShow("输入金额有误", MessageTag.ERROR);
+									mainActivity.processingUnLock();
+								}
+
+							} else {
+								mainActivity.appendInteractiveInfoAndShow("设备断开", MessageTag.ERROR);
+							}
+						}
+					});
+					btn_cancel.setOnClickListener(new android.view.View.OnClickListener() {
+
+						@Override
+						public void onClick(View arg0) {
+							mainActivity.appendInteractiveInfoAndShow("交易取消", MessageTag.ERROR);
+							mainActivity.processingUnLock();
+							amt_dialog.dismiss();
+
+						}
+					});
+					mainActivity.runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							amt_dialog = builder.create();
+							amt_dialog.setCancelable(false);
+							amt_dialog.setCanceledOnTouchOutside(false);
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+					mainActivity.appendInteractiveInfoAndShow("执行pboc交易失败，" + e.getMessage(), MessageTag.ERROR);
+				}
+			}
+		}).start();
 	}
 
 	/**

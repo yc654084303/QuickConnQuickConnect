@@ -37,7 +37,13 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
+import com.huichuang.log.L;
+import com.huichuang.test.bean.PosParameterModel;
+import com.huihuang.utils.BeanToMap;
 import com.huihuang.utils.CommonUtils;
+import com.huihuang.utils.DesPlus;
+import com.huihuang.utils.MD5HexUtil;
+import com.huihuang.utils.Mtoast;
 import com.huihuang.utils.NetUtils;
 
 import android.accounts.NetworkErrorException;
@@ -364,4 +370,25 @@ public class HttpUtils {
 //		return doPostByHttpUrlConnection(Constants.HTTP_URL, hm);
 //		return hm;
 	}*/
+	/**
+	 * 整合参数
+	 * @param bean2Map
+	 * @return
+	 */
+	
+	public static Map<String ,String> setHttpData(Map<String, String> bean2Map) {
+		Map<String, String> pubParameter = HttpUtils.pubParameter(bean2Map);
+			String req= HttpUtils.appendpubPath(pubParameter);
+			 PosParameterModel parameter=new PosParameterModel();
+			L.e(req);
+			try {
+				DesPlus des=new DesPlus();
+				parameter.setReq_str(des.DataEncrypt(req,DesPlus.mykey));
+				parameter.setSign(MD5HexUtil.getEncryptedMd5(des.DataEncrypt(req,DesPlus.mykey)+DesPlus.mykey));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			Map<String, String> data = BeanToMap.bean2Map(parameter); 
+		return data;
+	}
 }

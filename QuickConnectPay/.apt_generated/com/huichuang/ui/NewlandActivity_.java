@@ -70,11 +70,11 @@ public final class NewlandActivity_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        gathering_account = ((TextView) hasViews.findViewById(id.gathering_account));
-        gathering_progressbar = ((RelativeLayout) hasViews.findViewById(id.gathering_progressbar));
-        expandableList = ((ExpandableListView) hasViews.findViewById(id.option_list));
         gathering_money = ((EditText) hasViews.findViewById(id.gathering_money));
         gathering_accountName = ((TextView) hasViews.findViewById(id.gathering_accountName));
+        gathering_progressbar = ((RelativeLayout) hasViews.findViewById(id.gathering_progressbar));
+        gathering_account = ((TextView) hasViews.findViewById(id.gathering_account));
+        expandableList = ((ExpandableListView) hasViews.findViewById(id.option_list));
         {
             View view = hasViews.findViewById(id.back);
             if (view!= null) {

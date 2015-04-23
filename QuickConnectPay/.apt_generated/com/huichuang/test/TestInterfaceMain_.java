@@ -69,14 +69,14 @@ public final class TestInterfaceMain_
     public void onViewChanged(HasViews hasViews) {
         edmessage = ((EditText) hasViews.findViewById(id.edmessage));
         {
-            View view = hasViews.findViewById(id.register);
+            View view = hasViews.findViewById(id.transactionflow);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
 
 
                     @Override
                     public void onClick(View view) {
-                        TestInterfaceMain_.this.myregisterClicked();
+                        TestInterfaceMain_.this.startExtraActivity();
                     }
 
                 }
@@ -99,6 +99,21 @@ public final class TestInterfaceMain_
             }
         }
         {
+            View view = hasViews.findViewById(id.register);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        TestInterfaceMain_.this.myregisterClicked();
+                    }
+
+                }
+                );
+            }
+        }
+        {
             View view = hasViews.findViewById(id.message);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
@@ -107,21 +122,6 @@ public final class TestInterfaceMain_
                     @Override
                     public void onClick(View view) {
                         TestInterfaceMain_.this.myMessageClicked();
-                    }
-
-                }
-                );
-            }
-        }
-        {
-            View view = hasViews.findViewById(id.transactionflow);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        TestInterfaceMain_.this.startExtraActivity();
                     }
 
                 }

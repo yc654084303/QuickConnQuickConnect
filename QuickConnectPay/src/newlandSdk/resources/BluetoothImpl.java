@@ -105,7 +105,7 @@ public class BluetoothImpl extends AbstractDevice {
 				discoveredDevices.clear();
 			}
 			bluetoothAdapter.startDiscovery();
-			mContext.showProgressDialog();
+//			mContext.showProgressDialog();
 			mContext.appendInteractiveInfoAndShow("正在搜索...", MessageTag.NORMAL);
 			new Thread(new Runnable() {
 				@Override
@@ -116,18 +116,17 @@ public class BluetoothImpl extends AbstractDevice {
 					} finally {
 						mContext.appendInteractiveInfoAndShow("停止搜索...", MessageTag.NORMAL);
 						bluetoothAdapter.cancelDiscovery();
-						mContext.hitProgressDialog();
+//						mContext.closeWaitingDialog();
 					}
 					selectBtAddrToInit();
 				}
 			}).start();
 		} else {
-			mContext.hitProgressDialog();
+//			mContext.closeWaitingDialog();
 			mContext.appendInteractiveInfoAndShow("蓝牙未打开", MessageTag.TIP);
 			Intent enabler = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			mContext.startActivityForResult(enabler, REQUEST_ENABLE);
 		}
-
 	}
 
 	// 弹出已配对蓝牙对话框,点击链接相应设备

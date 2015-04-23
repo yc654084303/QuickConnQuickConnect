@@ -39,9 +39,7 @@ public class KLApplication extends Application {
 	}
 	@Override
 	public void onCreate() {
-		if (!NetUtils.isConnected(this)) {
-			NetUtils.setNetworkMethod(this);
-		}
+		
 		L.isDebug=true;
 		
 		

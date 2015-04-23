@@ -35,8 +35,10 @@ import android.util.Xml;
 
 		
 
-		public static Map<String, Object> parseXml(String xml) throws Exception {//path:你要解析的xml的路径
-			Map<String, Object> map=null;
+		private static BackrParameterModel backrParameterModel;
+
+		public static Map<String, String> parseXml(String xml) throws Exception {//path:你要解析的xml的路径
+			Map<String, String> map=null;
 			ByteArrayInputStream tInputStringStream = null;  
 			  if (xml != null && !xml.trim().equals("")) {  
 			   tInputStringStream = new ByteArrayInputStream(xml.getBytes());  
@@ -70,15 +72,47 @@ import android.util.Xml;
 							person.setResTime(parser.nextText());
 						}
 						else if("respBody".equals(name)){
+							backrParameterModel = BackrParameterModel.getInstance();
 						}else if("trade_id".equals(name)){
-							BackrParameterModel.getInstance().setTrade_id(parser.nextText());
+							backrParameterModel.setTrade_id(parser.nextText());
 						}else if("send_state".equals(name)){
-							BackrParameterModel.getInstance().setSend_state(parser.nextText());
+							backrParameterModel.setSend_state(parser.nextText());
 						}
+						else if("requestcode".equals(name)){
+							backrParameterModel.setRequestcode(parser.nextText());
+						}
+						else if("temcurrent".equals(name)){
+							backrParameterModel.setTemcurrent(parser.nextText());
+						}
+						else if("userid".equals(name)){
+							backrParameterModel.setUserid(parser.nextText());
+						}
+						else if("token".equals(name)){
+							backrParameterModel.setToken(parser.nextText());
+						}else if("sessionid".equals(name)){
+							backrParameterModel.setSessionid(parser.nextText());
+						}else if("termsn".equals(name)){
+							backrParameterModel.setSessionid(parser.nextText());
+						}else if("merchantid".equals(name)){
+							backrParameterModel.setSessionid(parser.nextText());
+						}else if("tradetime".equals(name)){
+							backrParameterModel.setSessionid(parser.nextText());
+						}else if("receive_part_code".equals(name)){
+							backrParameterModel.setSessionid(parser.nextText());
+						}else if("serchno".equals(name)){
+							backrParameterModel.setSessionid(parser.nextText());
+						}else if("answer_code".equals(name)){
+							backrParameterModel.setSessionid(parser.nextText());
+						}else if("terminal_key".equals(name)){
+							backrParameterModel.setSessionid(parser.nextText());
+						}else if("custom60".equals(name)){
+							backrParameterModel.setSessionid(parser.nextText());
+						}
+						
 						break;
 					case XmlPullParser.END_TAG://标签头
 						if ("respBody".equals(name)) {
-							person.setRespBody(BackrParameterModel.getInstance());
+							person.setRespBody(backrParameterModel);
 						}
 						if("res".equals(name)){
 							  map = BeanToMap.bean2Map(person);//一个person标签结束，就将该person数据加入到集合list

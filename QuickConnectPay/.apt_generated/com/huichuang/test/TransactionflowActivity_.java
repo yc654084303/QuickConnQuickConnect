@@ -70,6 +70,36 @@ public final class TransactionflowActivity_
     @Override
     public void onViewChanged(HasViews hasViews) {
         {
+            View view = hasViews.findViewById(id.butconsume_id);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        TransactionflowActivity_.this.mybutconsumeid();
+                    }
+
+                }
+                );
+            }
+        }
+        {
+            View view = hasViews.findViewById(id.butsign);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        TransactionflowActivity_.this.mybutsign();
+                    }
+
+                }
+                );
+            }
+        }
+        {
             View view = hasViews.findViewById(id.butconsume);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {

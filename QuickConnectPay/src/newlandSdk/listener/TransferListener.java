@@ -37,4 +37,8 @@ public interface TransferListener extends EmvControllerListener {
 	 *            emv数据对象
 	 */
 	public void onQpbocFinished(EmvTransInfo emvTransInfo);
+	
+	
+	
+	
 }
