@@ -69,29 +69,14 @@ public final class TestInterfaceMain_
     public void onViewChanged(HasViews hasViews) {
         edmessage = ((EditText) hasViews.findViewById(id.edmessage));
         {
-            View view = hasViews.findViewById(id.transactionflow);
+            View view = hasViews.findViewById(id.message);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
 
 
                     @Override
                     public void onClick(View view) {
-                        TestInterfaceMain_.this.startExtraActivity();
-                    }
-
-                }
-                );
-            }
-        }
-        {
-            View view = hasViews.findViewById(id.Login);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        TestInterfaceMain_.this.myLoginClicked();
+                        TestInterfaceMain_.this.myMessageClicked();
                     }
 
                 }
@@ -114,14 +99,29 @@ public final class TestInterfaceMain_
             }
         }
         {
-            View view = hasViews.findViewById(id.message);
+            View view = hasViews.findViewById(id.Login);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
 
 
                     @Override
                     public void onClick(View view) {
-                        TestInterfaceMain_.this.myMessageClicked();
+                        TestInterfaceMain_.this.myLoginClicked();
+                    }
+
+                }
+                );
+            }
+        }
+        {
+            View view = hasViews.findViewById(id.transactionflow);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        TestInterfaceMain_.this.startExtraActivity();
                     }
 
                 }

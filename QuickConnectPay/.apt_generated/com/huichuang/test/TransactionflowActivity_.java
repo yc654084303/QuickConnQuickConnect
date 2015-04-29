@@ -85,21 +85,6 @@ public final class TransactionflowActivity_
             }
         }
         {
-            View view = hasViews.findViewById(id.butsign);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        TransactionflowActivity_.this.mybutsign();
-                    }
-
-                }
-                );
-            }
-        }
-        {
             View view = hasViews.findViewById(id.butconsume);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
@@ -108,6 +93,21 @@ public final class TransactionflowActivity_
                     @Override
                     public void onClick(View view) {
                         TransactionflowActivity_.this.mybutconsume();
+                    }
+
+                }
+                );
+            }
+        }
+        {
+            View view = hasViews.findViewById(id.butsign);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        TransactionflowActivity_.this.mybutsign();
                     }
 
                 }

@@ -134,7 +134,24 @@ public class DeviceControllerImpl implements DeviceController {
 	public void disConnect() {
 		deviceManager.disconnect();
 	}
-
+	public PinInput updateWorkingKey1(WorkingKeyType workingKeyType, byte[] encryData, byte[] checkValue) {
+		PinInput pinInput = (PinInput) deviceManager.getDevice().getStandardModule(ModuleType.COMMON_PININPUT);
+		int mkIndex = MKIndexConst.DEFAULT_MK_INDEX;
+		switch (workingKeyType) {
+		case PININPUT:
+			pinInput.loadWorkingKeyAndVerify(WorkingKeyType.PININPUT, mkIndex, PinWKIndexConst.DEFAULT_PIN_WK_INDEX, encryData, checkValue);
+			break;
+		case DATAENCRYPT:
+			pinInput.loadWorkingKeyAndVerify(WorkingKeyType.DATAENCRYPT, mkIndex, DataEncryptWKIndexConst.DEFAULT_TRACK_WK_INDEX, encryData, checkValue);
+			break;
+		case MAC:
+			pinInput.loadWorkingKeyAndVerify(WorkingKeyType.MAC, mkIndex, MacWKIndexConst.DEFAULT_MAC_WK_INDEX, encryData, checkValue);
+			break;
+		default:
+			throw new DeviceRTException(AppExCode.LOAD_WORKINGKEY_FAILED, "unknown key type!" + workingKeyType);
+		}
+		return pinInput;
+	}
 	@Override
 	public void updateWorkingKey(WorkingKeyType workingKeyType, byte[] encryData, byte[] checkValue) {
 		PinInput pinInput = (PinInput) deviceManager.getDevice().getStandardModule(ModuleType.COMMON_PININPUT);

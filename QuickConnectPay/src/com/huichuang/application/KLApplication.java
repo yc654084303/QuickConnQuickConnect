@@ -33,17 +33,12 @@ public class KLApplication extends Application {
 	private byte[] result;
     private Map<ICCardSlot,ICCardSlotState> map=new HashMap<ICCardSlot, ICCardSlotState>(); //卡槽状态
 	public static KLApplication klApplication(){
-		
 		return new KLApplication();
 		
 	}
 	@Override
 	public void onCreate() {
-		
 		L.isDebug=true;
-		
-		
-		
 		if (ifSDCardExit()) {
 			NLDPath = "/sdcard/data/data/com.example.mainapp/update";
 			NLDPath_Image = "/sdcard/data/data/com.example.mainapp/image";

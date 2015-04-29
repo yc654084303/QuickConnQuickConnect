@@ -20,7 +20,7 @@ public class BackrParameterModel {
 	private String answer_code;//应答码
 	private String terminal_key;//终端密钥
 	private String custom60;//自定义域
-	
+	private String userkey;//用户key
 	public String getCustom60() {
 		return custom60;
 	}
@@ -38,6 +38,16 @@ public class BackrParameterModel {
 	    return single;  
 	} 
 	
+	
+	
+	public String getUserkey() {
+		return userkey;
+	}
+
+	public void setUserkey(String userkey) {
+		this.userkey = userkey;
+	}
+
 	public String getTermsn() {
 		return termsn;
 	}

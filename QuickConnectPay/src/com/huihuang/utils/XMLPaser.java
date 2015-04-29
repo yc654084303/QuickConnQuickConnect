@@ -92,22 +92,25 @@ import android.util.Xml;
 						}else if("sessionid".equals(name)){
 							backrParameterModel.setSessionid(parser.nextText());
 						}else if("termsn".equals(name)){
-							backrParameterModel.setSessionid(parser.nextText());
+							backrParameterModel.setTermsn(parser.nextText());
 						}else if("merchantid".equals(name)){
-							backrParameterModel.setSessionid(parser.nextText());
+							backrParameterModel.setMerchantid(parser.nextText());
 						}else if("tradetime".equals(name)){
-							backrParameterModel.setSessionid(parser.nextText());
+							backrParameterModel.setTradetime(parser.nextText());
 						}else if("receive_part_code".equals(name)){
-							backrParameterModel.setSessionid(parser.nextText());
+							backrParameterModel.setReceive_part_code(parser.nextText());
 						}else if("serchno".equals(name)){
-							backrParameterModel.setSessionid(parser.nextText());
+							backrParameterModel.setSerchno(parser.nextText());
 						}else if("answer_code".equals(name)){
-							backrParameterModel.setSessionid(parser.nextText());
+							backrParameterModel.setAnswer_code(parser.nextText());
 						}else if("terminal_key".equals(name)){
-							backrParameterModel.setSessionid(parser.nextText());
+							backrParameterModel.setTerminal_key(parser.nextText());
 						}else if("custom60".equals(name)){
-							backrParameterModel.setSessionid(parser.nextText());
+							backrParameterModel.setCustom60(parser.nextText());
+						}else if("userkey".equals(name)){
+							backrParameterModel.setUserkey(parser.nextText());
 						}
+						
 						
 						break;
 					case XmlPullParser.END_TAG://标签头

@@ -428,6 +428,7 @@ public class SimpleTransferListener implements TransferListener {
 			connected_device.getController().startPininput(acctHash, 6, msg, listener);
 		return null;
 	}
+	
 	public void doPinInput(SwipResult swipRslt) throws Exception {
 		PinInputEvent event = null;
 		DeviceConnParams connParams = connected_device.getController().getDeviceConnParams();

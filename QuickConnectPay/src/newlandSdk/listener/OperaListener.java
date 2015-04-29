@@ -498,6 +498,11 @@ public class OperaListener implements OnChildClickListener {
 										@Override
 										public void onClick(DialogInterface dialog, int which) {
 
+											updataworkingkey(arrayWorkingKeySelected);
+										}
+
+										public  void updataworkingkey(
+												final boolean[] arrayWorkingKeySelected) {
 											new Thread(new Runnable() {
 
 												@Override
@@ -1305,7 +1310,7 @@ public class OperaListener implements OnChildClickListener {
 									@Override
 									public void onClick(DialogInterface arg0, int arg1) {
 										try {
-											byte[] input = edit_encryption_value.getText().toString().getBytes("GBK");
+											byte[] input = edit_encryption_value.getText().toString().getBytes("utf_8");
 											result = connected_device.getController().encrypt(new WorkingKey(temp_param_index), encryptType, input);
 											mainActivity.appendInteractiveInfoAndShow("加密成功!", MessageTag.NORMAL);
 											mainActivity.appendInteractiveInfoAndShow("加密数据:" + edit_encryption_value.getText().toString(), MessageTag.DATA);
@@ -2581,7 +2586,8 @@ public class OperaListener implements OnChildClickListener {
 												DecimalFormat df = new DecimalFormat("#0.00");
 												connected_device.getController().startTransfer(mainActivity, 
 														new OpenCardType[]{OpenCardType.SWIPER,
-														OpenCardType.ICCARD,OpenCardType.NCCARD}, 
+														OpenCardType.ICCARD,
+														OpenCardType.NCCARD}, 
 														"交易金额为:" + df.format(amt) + "\n请刷卡或者插入IC卡", amt, 60,
 														TimeUnit.SECONDS, 
 														CardRule.ALLOW_LOWER,  
